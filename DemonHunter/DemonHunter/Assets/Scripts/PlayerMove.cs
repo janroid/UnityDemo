@@ -38,24 +38,25 @@ public class PlayerMove : MonoBehaviour {
         //方案二
         //myrigidbody.AddRelativeForce((x * Vector3.right + z * Vector3.forward) * speed, ForceMode.Force);
         //方案三
-        myrigidbody.velocity = new Vector3(
-            speed * x,
-            myrigidbody.velocity.y,
-            speed * z
-        );
+        //myrigidbody.velocity = new Vector3(
+        //    speed * x,
+        //    myrigidbody.velocity.y,
+        //    speed * z
+        //);
         //方案四
         //角色的移动
-        //myrigidbody.MovePosition(player.position + new Vector3(x, 0, z) * speed * Time.deltaTime);
+        myrigidbody.MovePosition(player.position + new Vector3(x, 0, z) * speed * Time.deltaTime);
 
         // 转向
         Ray mouceRay = mainCamera.ScreenPointToRay(Input.mousePosition); // 鼠标发送的射线
         RaycastHit raycastHit;
         if (Physics.Raycast(mouceRay, out raycastHit, 200, groundIndex))
         {
-            Vector3 target = raycastHit.point;
-            target.y = transform.position.y;
-            player.LookAt(target);
-
+            Vector3 target = raycastHit.point - player.position;
+            target.y = 0;
+            //player.LookAt(target);
+            Quaternion newRotation = Quaternion.LookRotation(target);
+            myrigidbody.MoveRotation(newRotation);
         }
 
         if (Mathf.Abs(x) > PRECISION || Mathf.Abs(z) > PRECISION)

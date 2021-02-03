@@ -33,3 +33,12 @@ sysinfo.txt
 
 # Builds
 *.apk
+
+Runing/
+DemonHunter/
+AngryBird/
+LeGaoDemo/
+IntroToLightingStarterPackages.unitypackage
+LitDemo/Library/
+LitDemo/Logs/
+LitDemo/Temp/

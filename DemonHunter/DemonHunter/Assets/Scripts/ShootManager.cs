@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ShootManager : MonoBehaviour {
 
-    public float shootRate = 5;
+    public float shootRate = 1;
+    public float attackPower = 30;
     private float timer;
     private Transform transform;
     private Light light;
@@ -12,15 +13,17 @@ public class ShootManager : MonoBehaviour {
     private LineRenderer lineRenderer;
     private int rayground;
     private AudioSource audio;
+    private ZoomManager zoomManager;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         transform = GetComponent<Transform>();
         light = GetComponent<Light>();
         gunParticle = GetComponentInChildren<ParticleSystem>();
         lineRenderer = GetComponent<LineRenderer>();
         rayground = LayerMask.GetMask("Ground");
         audio = GetComponent<AudioSource>();
+
 	}
 	
 	// Update is called once per frame
@@ -43,6 +46,12 @@ public class ShootManager : MonoBehaviour {
         RaycastHit raycastHit;
         if(Physics.Raycast(gunRay,out raycastHit,200,rayground)){
             lineRenderer.SetPosition(1,raycastHit.point);
+            if(raycastHit.collider.tag == Tags.Zoms){
+                raycastHit.collider.GetComponent<ZoomManager>().TakeDamage(attackPower, raycastHit.point);;
+
+            }
+
+
         }else{
             lineRenderer.SetPosition(1,transform.position + transform.forward*100);
         }

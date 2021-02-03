@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour {
     private Animator manimator;
     private PlayerMove playerMove;
     private SkinnedMeshRenderer render;
+    private ShootManager shootManager;
 
     public float smotting = 2;
 
@@ -16,18 +17,15 @@ public class PlayerHealth : MonoBehaviour {
         manimator = GetComponent<Animator>();
         playerMove = GetComponent<PlayerMove>();
         render = GameObject.FindWithTag(Tags.PlayerRender).GetComponent<SkinnedMeshRenderer>();
+        shootManager = this.GetComponentInChildren<ShootManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetMouseButtonDown(1)){
-            PlayHurt(30);
-        }
-
         render.material.color = Color.Lerp(render.material.color,Color.white,smotting*Time.deltaTime);
 	}
 
-    void PlayHurt(float hurt){
+    public void PlayHurt(float hurt){
         if (HP <= 0) return;
 
         HP -= hurt;
@@ -44,6 +42,6 @@ public class PlayerHealth : MonoBehaviour {
 
     void Dead(){
         playerMove.enabled = false;
-
+        shootManager.enabled = false;
     }
 }

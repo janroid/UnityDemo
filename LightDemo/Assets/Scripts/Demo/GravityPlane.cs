@@ -20,7 +20,7 @@ public class GravityPlane : GravitySource
         float g = - gravity;
         if(distance > 0){
             g *= 1f - distance / range;
-            Debug.Log("distance = " + distance + ", g = " + g);
+            //Debug.Log("distance = " + distance + ", g = " + g);
         }
 
         return g * up;
